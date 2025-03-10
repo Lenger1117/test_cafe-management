@@ -20,7 +20,7 @@ cd cafe-management
 python -m venv venv
 ```
 ```
-source venv/bin/activate  # Linux/Mac
+source venv/bin/activate
 ```
 3. Установка зависимостей
 ```
