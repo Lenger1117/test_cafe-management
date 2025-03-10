@@ -1,0 +1,15 @@
+{% extends 'cafe/base.html' %}
+
+{% block content %}
+    <h2>Добавить заказ</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    {% if form.errors %}
+        <div style="color: red;">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+{% endblock %}

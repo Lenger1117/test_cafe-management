@@ -1,0 +1,54 @@
+{% extends 'cafe/base.html' %}
+
+{% block content %}
+    <h2>Список заказов</h2>
+
+    <form method="GET">
+        <select name="status" onchange="this.form.submit()">
+            <option value="">Все статусы</option>
+            {% for value, name in statuses %}
+                <option value="{{ value }}" {% if value == selected_status %}selected{% endif %}>
+                    {{ name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Номер стола</th>
+            <th>Блюда</th>
+            <th>Общая стоимость</th>
+            <th>Статус</th>
+            <th>Действия</th>
+        </tr>
+        {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.table_number }}</td>
+                <td>
+                    <ul>
+                        {% for item in order.items.all %}
+                            <li>{{ item.name }} ({{ item.price }} руб.)</li>
+                        {% empty %}
+                            <li>Нет блюд</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ order.total_price }} руб.</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>
+                    <a href="{% url 'edit_order' order.id %}">Редактировать</a>
+                    <a href="{% url 'delete_order' order.id %}">Удалить</a>
+                    <a href="{% url 'update_status' order.id %}">Изменить статус</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr><td colspan="6">Нет заказов</td></tr>
+        {% endfor %}
+    </table>
+
+    <a href="{% url 'add_order' %}">Добавить заказ</a>
+    <a href="{% url 'calculate_revenue' %}">Расчет выручки</a>
+{% endblock %}

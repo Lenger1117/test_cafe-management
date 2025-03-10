@@ -1,5 +1,9 @@
 from django.contrib import admin
-from .models import Order
+from .models import Order, Item
+
+@admin.register(Item)
+class ItemAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price')
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):

@@ -1,0 +1,25 @@
+{% extends 'cafe/base.html' %}
+
+{% block content %}
+    <h2>Изменение статуса заказа #{{ order.id }}</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        <p>Номер стола: {{ order.table_number }}</p>
+        <p>Общая стоимость: {{ order.total_price }} руб.</p>
+        <p>Текущий статус: {{ order.get_status_display }}</p>
+        
+        <label for="status">Выберите новый статус:</label>
+        <select name="status" id="status">
+            {% for value, name in order.ORDER_STATUS %}
+                <option value="{{ value }}" {% if order.status == value %}selected{% endif %}>
+                    {{ name }}
+                </option>
+            {% endfor %}
+        </select>
+        
+        <button type="submit">Обновить статус</button>
+    </form>
+    
+    <a href="{% url 'orders_list' %}">Отмена</a>
+{% endblock %}
